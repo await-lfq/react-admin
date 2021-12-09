@@ -1,0 +1,33 @@
+.input-component{
+  position: relative;
+  .input{
+    width: 300px;
+    height: 40px;
+    border: 2px solid #dcdfe6;
+    outline: none;
+    border-radius: 10px;
+    transition: all 0.5s;
+    cursor: pointer;
+    padding-left: 40px;
+    box-sizing: border-box;
+    font-size: 18px;
+    color: #ccc;
+    &:hover{
+      border-color:#c0c4cc ;
+    }
+    &:focus{
+      border-color: #409eff;
+    }
+    &::placeholder{
+      color: #ccc;
+    }
+  }
+  .icon{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+  }
+}

@@ -1,0 +1,23 @@
+// 头部
+.top {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  .name-box {
+    padding-left: 30px;
+    cursor: pointer;
+  }
+
+  .right-info {
+    display: flex;
+    padding-right: 30px;
+    .user-box{
+      margin-right: 30px;
+      cursor: pointer;
+    }
+    .login-out-box{
+      cursor: pointer;
+    }
+  }
+}

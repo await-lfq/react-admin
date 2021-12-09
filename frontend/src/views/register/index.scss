@@ -1,0 +1,48 @@
+.register{
+  height: 100vh;
+  background: lightseagreen;
+  position: relative;
+}
+// 注册容器
+.container{
+  width: 400px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0px 0px 8px 0px #fff;
+  position: absolute;
+  right: 100px;
+  top: 50%;
+  transform: translateY(-80%);
+  .title{
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    color: #1890ff;
+    margin-bottom: 20px;
+  }
+  .phone-box,.password-box{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    label{
+      width: 50px;
+      text-align: right;
+      line-height: 40px;
+      margin-right: 10px;
+    }
+  }
+  .submit{
+    width: 100px;
+    height: 30px;
+    margin: 0 auto;
+    line-height: 30px;
+    text-align: center;
+    border-radius:10px;
+    background-color: #1890ff;
+    margin-bottom: 30px;
+    box-shadow: 0px 0px 8px 0px #ccc;
+    cursor: pointer;
+    color: #fff;
+    font-size: 14px;
+  }
+}
