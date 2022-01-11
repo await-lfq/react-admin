@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import "./index.scss";
 import propTypes from "prop-types";
-
 export default class Input extends Component {
   constructor(props) {
     super(props);
     this.state = {
       value: "", // 表单值
-      msg: "", // 提示信息
+      errorMsg: "", // 错误信息
     }
   }
 
@@ -32,8 +31,8 @@ export default class Input extends Component {
 
   render () {
     const { icon, errorColor, trigger, input, placeholder, maxLength } = this.props;
-    const validateEvent = { [trigger]: this.validate };
-    const { value, msg } = this.state;
+    const validateEvent = { [trigger]: this.getValidateRes };
+    const { value, errorMsg } = this.state;
     return (
       <div className="input-component">
         <input
@@ -46,7 +45,7 @@ export default class Input extends Component {
           autoComplete="off"
           className="input"
         />
-        <p style={{ color: errorColor, position: 'absolute', top: '55px' }}>{msg}</p>
+        <p style={{ color: errorColor, position: 'absolute', top: '55px' }}>{errorMsg}</p>
         <img className="icon" src={icon} alt="" />
       </div>
     )
@@ -57,34 +56,30 @@ export default class Input extends Component {
     this.setState({ value: e.target.value.trim() });
   };
 
-  // 验证方法
-  validate = (e) => {
-    const value = this.state;
+  // 获取验证结果
+  getValidateRes = () => {
+    const { value } = this.state;
     const { messageList } = this.props;
-    let isError = false;
+    let isError = false; // 是否有错误信息
+    let hintMsg; // 错误信息提示
     for (let i = 0, len = messageList.length; i < len; i++) {
       const { required, regExp, message } = messageList[i];
       if ((required && !value) || (regExp && !regExp.test(value))) {
         isError = true;
-      }
-      if (isError) { // 有错误信息
-        this.showErrorMessage(isError, message);
-      } else { // 没有错误信息
-        this.showErrorMessage(isError, message);
+        hintMsg = message;
+        break;
       }
     }
-  }
-
-  // 显示错误信息
-  showErrorMessage (isError, message) {
-    if (isError) {
+    if (isError) { // 有错误信息
       this.setState({
-        msg: message
-      })
-    } else {
-      this.setState({
-        msg: ""
+        errorMsg: hintMsg
       });
+      return true;
+    } else { // 没有错误信息
+      this.setState({
+        errorMsg: ""
+      });
+      return false;
     }
   }
 }
