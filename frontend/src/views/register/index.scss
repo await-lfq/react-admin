@@ -13,12 +13,14 @@
   right: 100px;
   top: 50%;
   transform: translateY(-80%);
+  
   .title{
     text-align: center;
     height: 50px;
     line-height: 50px;
     color: #1890ff;
     margin-bottom: 20px;
+    font-size: 14px;
   }
   .phone-box,.password-box{
     display: flex;
@@ -29,6 +31,7 @@
       text-align: right;
       line-height: 40px;
       margin-right: 10px;
+      font-size: 14px;
     }
   }
   .submit{

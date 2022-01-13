@@ -4,11 +4,11 @@ import "./index.scss";
 import Input from "../../components/input"
 import user from "../../assets/user.png";
 import lock from "../../assets/lock.png";
+import { showToastError } from "../../utils/tool";
 export default class Register extends Component {
   static propTypes = {
 
   }
-
   render () {
     return (
       <div className="register">
@@ -33,7 +33,9 @@ export default class Register extends Component {
                     message: "请输入正确的电话号码"
                   }
                 ]
+
               }
+              ref="phone"
             >
             </Input>
           </div>
@@ -56,12 +58,27 @@ export default class Register extends Component {
                   }
                 ]
               }
+              ref="password"
             >
             </Input>
           </div>
-          <div className="submit">注册</div>
+          <div className="submit" onClick={this.handlerRegister}>注册</div>
         </div>
       </div>
     )
+  }
+  handlerRegister = () => {
+    // 表达验证结果构成的数组
+    const ValidateResList = [this.refs.password.getValidateRes(), this.refs.phone.getValidateRes()];
+    // 验证结果
+    const flag = ValidateResList.every(item => item === true);
+    // 验证失败
+    if (!flag) {
+      showToastError("请检查表单信息");
+      return
+    };
+    // 验证成功
+    console.log("验证成功");
+
   }
 }

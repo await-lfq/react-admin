@@ -45,7 +45,7 @@ export default class Input extends Component {
           autoComplete="off"
           className="input"
         />
-        <p style={{ color: errorColor, position: 'absolute', top: '55px' }}>{errorMsg}</p>
+        <p className='error-msg'>{errorMsg}</p>
         <img className="icon" src={icon} alt="" />
       </div>
     )
@@ -74,12 +74,12 @@ export default class Input extends Component {
       this.setState({
         errorMsg: hintMsg
       });
-      return true;
+      return false;
     } else { // 没有错误信息
       this.setState({
         errorMsg: ""
       });
-      return false;
+      return true;
     }
   }
 }

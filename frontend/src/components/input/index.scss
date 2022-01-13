@@ -1,6 +1,7 @@
-.input-component{
+.input-component {
   position: relative;
-  .input{
+
+  .input {
     width: 300px;
     height: 40px;
     border: 2px solid #dcdfe6;
@@ -10,19 +11,30 @@
     cursor: pointer;
     padding-left: 40px;
     box-sizing: border-box;
-    font-size: 18px;
+    font-size: 14px;
     color: #ccc;
-    &:hover{
-      border-color:#c0c4cc ;
+
+    &:hover {
+      border-color: #c0c4cc;
     }
-    &:focus{
+
+    &:focus {
       border-color: #409eff;
     }
-    &::placeholder{
+
+    &::placeholder {
       color: #ccc;
+      font-size: 14px;
     }
   }
-  .icon{
+
+  .error-msg {
+    color: red;
+    position: 'absolute';
+    top: '40px';
+    font-size: 14px;
+  }
+  .icon {
     width: 20px;
     height: 20px;
     position: absolute;
