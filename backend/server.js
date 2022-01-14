@@ -1,6 +1,6 @@
 const express=require("express");
-const allRouter=require("./routers"); // 主路由
 const app=express();
+const allRouter=require("./routers"); // 主路由
 app.use(express.static("./"));
 app.use(allRouter);
 app.listen(2021,()=>{

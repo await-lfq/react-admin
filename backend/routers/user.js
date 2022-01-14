@@ -1,34 +1,28 @@
-let express = require("express");
-let router = express.Router();
-let query = require("../database/index") 
-let bodyParser = require("body-parser");
-let urlencodedParser = bodyParser.urlencoded({ extended: false })
-const { createToken, verifyToken } = require("../utils/token");
+const express = require("express");
+const router = express.Router();
+const query = require("../database/index") // 查询方法
+const bodyParser = require("body-parser");
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const { createToken, verifyToken } = require("../utils/token"); // token验证与生成
 // 注册接口
 router.post("/registry", urlencodedParser, express.json(), async (req, res) => {
-  let { phone, password } = req.body;
-  let searchSql = "SELECT * FROM registry";
+  const { phone, password } = req.body;
   try {
-    let searchData = await query(searchSql);
-    let flag = searchData.some((item) => item.phone === phone);
-    let result;
+    const registryData = await query("SELECT * FROM registry");
+    const flag = registryData.some((item) => item.phone === phone);
+    let result = null;
     if (flag) { // 用户存在
       result = {
         code: 1,
-        msg: "该用户存在，注册失败"
+        msg: "该用户存在,注册失败"
       }
     } else { // 用户不存在
-      let insertSql = `INSERT INTO registry(phone,password) VALUES('${phone}','${password}')`;
-      try {
-        let insertData = await query(insertSql);
-        if (insertData.affectedRows) {
-          result = {
-            code: 0,
-            msg: "注册成功"
-          }
+      let insertData = await query(`INSERT INTO registry(phone,password) VALUES('${phone}','${password}')`);
+      if (insertData.affectedRows) {
+        result = {
+          code: 0,
+          msg: "注册成功"
         }
-      } catch (error) {
-        console.log(error);
       }
     }
     res.send(result)
@@ -47,7 +41,7 @@ router.get("/login", async (req, res) => {
       data: {},
     };
     res.send(result);
-    return; 
+    return;
   }
   let flag1 = false, flag2 = false;
   try {
@@ -88,11 +82,11 @@ router.get("/login", async (req, res) => {
 });
 
 // 用户信息接口
-router.get("/userInfo",(req,res)=>{
+router.get("/userInfo", (req, res) => {
   res.send({
-    data:"",
-    msg:"success", 
-    code:0,
+    data: "",
+    msg: "success",
+    code: 0,
   })
 })
 module.exports = router;
