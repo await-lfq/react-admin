@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
 import "./index.scss";
 import Input from "../../components/input"
 import user from "../../assets/user.png";
 import lock from "../../assets/lock.png";
-import { showToastError } from "../../utils/tool";
+import { showToastError, showToastSuccess } from "../../utils/tool";
+import { register } from "../../utils/api";
 export default class Register extends Component {
-  static propTypes = {
-
-  }
   render () {
     return (
       <div className="register">
@@ -33,7 +30,6 @@ export default class Register extends Component {
                     message: "请输入正确的电话号码"
                   }
                 ]
-
               }
               ref="phone"
             >
@@ -67,8 +63,8 @@ export default class Register extends Component {
       </div>
     )
   }
-  handlerRegister = () => {
-    // 表达验证结果构成的数组
+  handlerRegister = async () => {
+    // 表单验证结果构成的数组
     const ValidateResList = [this.refs.password.getValidateRes(), this.refs.phone.getValidateRes()];
     // 验证结果
     const flag = ValidateResList.every(item => item === true);
@@ -77,8 +73,22 @@ export default class Register extends Component {
       showToastError("请检查表单信息");
       return
     };
+    console.log(this.refs.password,);
     // 验证成功
-    console.log("验证成功");
-
+    const params = { // 请求参数
+      phone: this.refs.phone.state.value,
+      password: this.refs.password.state.value,
+    }
+    try {
+      const res = await register(params);
+      if (res.code !== 0) { // 注册失败
+        showToastError(res.msg);
+        return;
+      }
+      showToastSuccess(res.msg); // 注册成功
+      this.props.history.push("/login") // 跳转登录页面
+    } catch (error) {
+      showToastError("注册失败");
+    }
   }
 }

@@ -45,8 +45,8 @@ export default class Input extends Component {
           autoComplete="off"
           className="input"
         />
-        <p className='error-msg'>{errorMsg}</p>
         <img className="icon" src={icon} alt="" />
+        <p className='error-msg'>{errorMsg}</p>
       </div>
     )
   }

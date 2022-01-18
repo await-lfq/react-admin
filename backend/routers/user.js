@@ -6,26 +6,25 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const { createToken, verifyToken } = require("../utils/token"); // token验证与生成
 // 注册接口
 router.post("/registry", urlencodedParser, express.json(), async (req, res) => {
-  const { phone, password } = req.body;
   try {
-    const registryData = await query("SELECT * FROM registry");
-    const flag = registryData.some((item) => item.phone === phone);
-    let result = null;
-    if (flag) { // 用户存在
-      result = {
+    const { phone, password } = req.body;
+    const searchRes = await query(`select * from  registry where phone='${phone}'`); // 查表中是否有这条数据
+    let data = null;
+    if (searchRes.length) { // 用户存在
+      data = {
         code: 1,
         msg: "该用户存在,注册失败"
       }
     } else { // 用户不存在
-      let insertData = await query(`INSERT INTO registry(phone,password) VALUES('${phone}','${password}')`);
-      if (insertData.affectedRows) {
-        result = {
+      let insertRes = await query(`INSERT INTO registry(phone,password) VALUES('${phone}','${password}')`); // 把该数据插入到表中
+      if (insertRes.affectedRows) {
+        data = {
           code: 0,
           msg: "注册成功"
         }
       }
     }
-    res.send(result)
+    res.send(data);
   } catch (error) {
     console.log(error);
   }

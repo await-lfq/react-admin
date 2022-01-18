@@ -15,19 +15,13 @@ server.interceptors.request.use(
     }
     return config
   },
-  error => {
-    return Promise.reject(error);
-  }
-)
+  error => Promise.reject(error)
 
+)
 // 响应拦截器
 server.interceptors.response.use(
-  res => {
-    return res
-  },
-  error => {
-    return Promise.reject(error);
-  }
+  res => res.data,
+  error => Promise.reject(error)
 );
 
 /**
@@ -35,7 +29,7 @@ server.interceptors.response.use(
  * @method get
  * @return {Promise对象} Promise对象
  */
-export function get (url, params = {}) {
+export function get (url, params) {
   return new Promise((resolve, reject) => {
     server.get(url, {
       params: {
@@ -48,13 +42,12 @@ export function get (url, params = {}) {
     })
   })
 }
-
 /**
  * @description post请求
  * @method post
  * @return {Promise对象} Promise对象
  */
-export function post (url, params = {}) {
+export function post (url, params) {
   return new Promise((resolve, reject) => {
     server.post(url, params).then(res => {
       resolve(res)
