@@ -21,11 +21,9 @@ export default class Login extends Component {
       // 图形验证码实例
       gVerify: "",
     }
-
   }
   render () {
-
-    let { codeMsg, imgCodeVal, gVerify } = this.state;
+    const { codeMsg, imgCodeVal, gVerify } = this.state;
 
     return (
       <div className="login">
@@ -44,13 +42,19 @@ export default class Login extends Component {
               <div className="form-group">
                 <div className="input-phone input-group">
                   <Input
-                    messageList={[
-                      { required: true, message: "电话号码不为空" },
-                      { regExp: /^1[3-9](\d{9})$/, message: "请输入正确的电话号码" }
-                    ]}
-                    trigger={"onBlur"}
+                    messageList={
+                      [
+                        {
+                          required: true,
+                          message: "请输入电话号码"
+                        },
+                        {
+                          regExp: /^1[3-9]\d{9}$/,
+                          message: "请输入正确的电话号码"
+                        }
+                      ]
+                    }
                     maxLength={11}
-                    errorColor={'red'}
                     input="phone"
                     placeholder="请输入手机号码"
                     icon={phoneIcon}
@@ -60,12 +64,16 @@ export default class Login extends Component {
                 <div className="input-password input-group">
                   <Input
                     messageList={[
-                      { required: true, message: "密码不为空" },
-                      { regExp: /^([a-zA-Z]|\d){6,11}$/, message: "请输入正确的密码" }
+                      {
+                        required: true,
+                        message: "请输入6位数密码"
+                      },
+                      {
+                        regExp: /^\d{6}$/,
+                        message: "请输入正确的6位数密码"
+                      }
                     ]}
-                    trigger={"onBlur"}
                     maxLength={11}
-                    errorColor={'red'}
                     input="password"
                     placeholder="请输入密码"
                     icon={lock}
