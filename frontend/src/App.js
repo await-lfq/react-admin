@@ -17,7 +17,7 @@ class App extends Component {
             }
             <Redirect from="/" to="/register" exact />
             {
-              notFoundRouter.map(item => <Route component={item.NotFound} key={item.path} />)
+              notFoundRouter.map(item => <Route component={item.component} key={item.path} />)
             }
           </Switch>
         </Suspense>

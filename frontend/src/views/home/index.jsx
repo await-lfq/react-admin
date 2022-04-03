@@ -1,63 +1,38 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, Suspense } from 'react';
 import { Layout } from 'antd';
 import Top from "../../components/top";
 import AsideNav from "../../components/asideNav";
 import { Switch, Redirect, Route } from "react-router-dom";
-import reactLoadable from "react-loadable";
-let HomeIndex = reactLoadable({
-  loader: () => import("../homeIndex"),
-  loading: () => <div></div>
-})
-let User = reactLoadable({
-  loader: () => import("../backstageManager/user"),
-  loading: () => <div></div>
-})
-let Role = reactLoadable({
-  loader: () => import("../backstageManager/role"),
-  loading: () => <div></div>
-})
-let Permission = reactLoadable({
-  loader: () => import("../backstageManager/permission"),
-  loading: () => <div></div>
-});
-let Goods=reactLoadable({
-  loader:()=>import("../storeManager/goods"),
-  loading:()=><div></div>
-})
-let Order=reactLoadable({
-  loader:()=>import("../storeManager/order"),
-  loading:()=><div></div>
-});
-let NotFound=reactLoadable({
-  loader:()=>import("../notFound"),
-  loading:()=><div></div>
-})
+import { sonRouter, notFoundRouter } from "../../routers";
 let { Header, Sider, Content } = Layout;
 export default class Home extends Component {
-  render() {
+  render () {
     return (
       <div className="home">
         <Fragment>
           <Layout style={{ height: '100vh' }}>
             {/* 头部 */}
             <Header style={{ color: '#fff', padding: 0 }}>
-              <Top history={this.props.history}  />
+              <Top history={this.props.history} />
             </Header>
             <Layout>
               <Sider style={{ backgroundColor: '#fff' }}>
                 <AsideNav history={this.props.history} location={this.props.location}></AsideNav>
               </Sider>
               <Content>
-                <Switch>
-                  <Route path="/home/index" component={HomeIndex} exact />
-                  <Route path="/home/user" component={User} exact />
-                  <Route path="/home/role" component={Role} exact />
-                  <Route path="/home/permission" component={Permission} exact />
-                  <Route path="/home/order" component={Order} exact />
-                  <Route path="/home/goods" component={Goods} exact />
-                  <Redirect from="/home" to={{pathname:"/home/index"}} exact></Redirect>
-                  <Route path="*" component={NotFound}  /> 
-                </Switch>
+                <Suspense fallback={<div>加载中</div>}>
+
+                  <Switch>
+                    {
+                      sonRouter.map(item => <Route path={item.path} component={item.component} key={item.path} exact={item.exact} />)
+                    }
+                    <Redirect from="/home" to={{ pathname: "/home/index" }} exact></Redirect>
+                    {
+                      notFoundRouter.map(item => <Route component={item.component} key={item.path} />)
+                    }
+                  </Switch>
+                </Suspense>
+
               </Content>
             </Layout>
           </Layout>
