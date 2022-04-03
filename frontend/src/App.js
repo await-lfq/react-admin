@@ -1,38 +1,26 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import './App.scss';
 import { Switch, Route, Redirect } from "react-router-dom";
-import reactLoadable from "react-loadable";
-let Home = reactLoadable({
-  loader () { return import("./views/home") },
-  loading () { return <div></div> }
-})
-let Login = reactLoadable({
-  loader () { return import("./views/login") },
-  loading () { return <div></div> }
-})
-let NotFound = reactLoadable({
-  loader () {
-    return import("./views/notFound")
-  },
-  loading () {
-    return <div></div>
-  }
-})
-const Register = reactLoadable({
-  loader: () => import("@/views/register"),
-  loading: () => <div></div>
-})
+import { parentRouter, homeRouter, notFoundRouter } from "./routers/index";
+console.log(parentRouter, homeRouter, notFoundRouter);
 class App extends Component {
   render () {
     return (
       <div className="app">
-        <Switch>
-          <Route path="/login" component={Login} exact />
-          <Route path="/register" component={Register} exact />
-          <Route path="/home" render={(props) => <Home {...props} />} />
-          <Redirect from="/" to="/register" exact />
-          <Route component={NotFound} />
-        </Switch>
+        <Suspense fallback={<div>加载中...</div>}>
+          <Switch>
+            {
+              parentRouter.map(item => <Route key={item.path} path={item.path} component={item.component} exact={item.exact} />)
+            }
+            {
+              homeRouter.map(item => <Route path={item.path} key={item.path} render={(props) => <item.component {...props} />} />)
+            }
+            <Redirect from="/" to="/register" exact />
+            {
+              notFoundRouter.map(item => <Route component={item.NotFound} key={item.path} />)
+            }
+          </Switch>
+        </Suspense>
       </div>
     )
   }

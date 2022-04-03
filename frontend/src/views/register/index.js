@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Suspense } from 'react'
 import "./index.scss";
 import Input from "../../components/input"
 import user from "../../assets/user.png";

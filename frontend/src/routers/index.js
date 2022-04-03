@@ -1,55 +1,64 @@
 import { lazy } from "react";
-
 // 主路由
 const parentRouter = [
   {
     path: "/login",
-    components: lazy(() => import("../views/login")),
+    component: lazy(() => import("../views/login")),
     exact: true,
   },
   {
     path: "/register",
-    components: lazy(() => import("../views/register")),
+    component: lazy(() => import("../views/register")),
     exact: true,
   },
-  {
-    path: "/home",
-    components: lazy(() => import("../views/home")),
-    exact: false,
-  }
 ]
 // 子路由
-
 const sonRouter = [
   {
     path: "/home/index",
-    components: lazy(() => import("../views/homeIndex")),
+    component: lazy(() => import("../views/homeIndex")),
     exact: true,
   },
   {
     path: "/home/user",
-    components: lazy(() => import("../views/backstageManager/user")),
+    component: lazy(() => import("../views/backstageManager/user")),
     exact: true,
   },
   {
     path: "/home/role",
-    components: lazy(() => import("../backstageManager/role")),
+    component: lazy(() => import("../views/backstageManager/role")),
     exact: true,
   },
   {
     path: "/home/permission",
-    components: lazy(() => import("../views/backstageManager/permission")),
+    component: lazy(() => import("../views/backstageManager/permission")),
     exact: true,
   },
   {
     path: "/home/order",
-    components: lazy(() => import("../views/storeManager/order")),
+    component: lazy(() => import("../views/storeManager/order")),
     exact: true,
   },
   {
     path: "/home/goods",
-    components: lazy(() => import("../views/storeManager/goods")),
+    component: lazy(() => import("../views/storeManager/goods")),
     exact: true,
   }
 ];
-export { parentRouter, sonRouter }
+// home路由
+const homeRouter = [
+  {
+    path: "/home",
+    component: lazy(() => import("../views/home")),
+    exact: false,
+  }
+]
+// 404路由
+const notFoundRouter = [
+  {
+    path: "*",
+    component: lazy(() => import("../views/notFound")),
+    exact: false,
+  }
+]
+export { parentRouter, sonRouter, homeRouter, notFoundRouter }
