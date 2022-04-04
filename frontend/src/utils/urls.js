@@ -1,3 +1,4 @@
+/* 注册页面 */
 export const registry="/user/registry" // 注册
 
 export const login="/user/login" // 登陆

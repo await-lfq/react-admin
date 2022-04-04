@@ -35,11 +35,7 @@ export function get (url, params) {
       params: {
         ...params
       }
-    }).then(res => {
-      resolve(res);
-    }).catch(error => {
-      reject(error)
-    })
+    }).then(res => resolve(res), error => reject(error))
   })
 }
 /**
@@ -49,10 +45,6 @@ export function get (url, params) {
  */
 export function post (url, params) {
   return new Promise((resolve, reject) => {
-    server.post(url, params).then(res => {
-      resolve(res)
-    }).catch(error => {
-      reject(error)
-    })
+    server.post(url, params).then(res => resolve(res), error => reject(error))
   })
 }
