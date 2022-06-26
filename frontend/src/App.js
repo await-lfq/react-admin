@@ -1,8 +1,7 @@
 import React, { Component, Suspense } from "react";
 import './App.scss';
-import { Switch, Route, Redirect } from "react-router-dom";
-import { parentRouter, homeRouter, notFoundRouter } from "./routers/index";
-console.log(parentRouter, homeRouter, notFoundRouter);
+import { Switch, Route} from "react-router-dom";
+import  routerList  from "./routers/index";
 class App extends Component {
   render () {
     return (
@@ -10,14 +9,13 @@ class App extends Component {
         <Suspense fallback={<div>加载中...</div>}>
           <Switch>
             {
-              parentRouter.map(item => <Route key={item.path} path={item.path} component={item.component} exact={item.exact} />)
+              routerList.filter(item=>!item.children && !item.redirect).map(item => <Route key={item.path} path={item.path} component={item.component} exact={item.exact} />)
             }
             {
-              homeRouter.map(item => <Route path={item.path} key={item.path} render={(props) => <item.component {...props} />} />)
+              routerList.filter(item=>item.children && !item.redirect).map(item => <Route path={item.path} key={item.path} render={(props) => <item.component sonRouter={item.children} {...props} />} />)
             }
-            <Redirect from="/" to="/register" exact />
             {
-              notFoundRouter.map(item => <Route component={item.component} key={item.path} />)
+              routerList.filter(item=>item.children && item.redirect).map(item=> <Route path={item.path} key={item.path} render={(props) => <item.component  sonRouter={item.children} {...props} />} />)
             }
           </Switch>
         </Suspense>

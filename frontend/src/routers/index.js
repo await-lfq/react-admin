@@ -1,6 +1,7 @@
 import { lazy } from "react";
-// 主路由
-const parentRouter = [
+import layout from "../layout";
+// 路由表
+const routerList = [
   {
     path: "/login",
     component: lazy(() => import("../views/login")),
@@ -11,54 +12,57 @@ const parentRouter = [
     component: lazy(() => import("../views/register")),
     exact: true,
   },
-]
-// 子路由
-const sonRouter = [
   {
-    path: "/home/index",
-    component: lazy(() => import("../views/homeIndex")),
-    exact: true,
-  },
-  {
-    path: "/home/user",
-    component: lazy(() => import("../views/backstageManager/user")),
-    exact: true,
-  },
-  {
-    path: "/home/role",
-    component: lazy(() => import("../views/backstageManager/role")),
-    exact: true,
-  },
-  {
-    path: "/home/permission",
-    component: lazy(() => import("../views/backstageManager/permission")),
-    exact: true,
-  },
-  {
-    path: "/home/order",
-    component: lazy(() => import("../views/storeManager/order")),
-    exact: true,
-  },
-  {
-    path: "/home/goods",
-    component: lazy(() => import("../views/storeManager/goods")),
-    exact: true,
-  }
-];
-// home路由
-const homeRouter = [
-  {
-    path: "/home",
-    component: lazy(() => import("../views/home")),
+    path: "/",
+    component: layout,
     exact: false,
-  }
-]
-// 404路由
-const notFoundRouter = [
+    redirect: "/home",
+    children: [
+      {
+        path: "/home",
+        component: lazy(() => import("../views/home")),
+        exact: true,
+      }
+    ]
+  },
   {
-    path: "*",
-    component: lazy(() => import("../views/notFound")),
+    path: "/backstageManager",
+    component: layout,
     exact: false,
+    children: [
+      {
+        path: "/backstageManager/user",
+        component: lazy(() => import("../views/backstageManager/user")),
+        exact: true,
+      },
+      {
+        path: "/backstageManager/role",
+        component: lazy(() => import("../views/backstageManager/role")),
+        exact: true,
+      },
+      {
+        path: "/backstageManager/permission",
+        component: lazy(() => import("../views/backstageManager/permission")),
+        exact: true,
+      },
+    ]
+  },
+  {
+    path: "/storeManager",
+    component: layout,
+    exact: false,
+    children: [
+      {
+        path: "/storeManager/order",
+        component: lazy(() => import("../views/storeManager/order")),
+        exact: true,
+      },
+      {
+        path: "/storeManager/goods",
+        component: lazy(() => import("../views/storeManager/goods")),
+        exact: true,
+      }
+    ]
   }
 ]
-export { parentRouter, sonRouter, homeRouter, notFoundRouter }
+export default  routerList 
